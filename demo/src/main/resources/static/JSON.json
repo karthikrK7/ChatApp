@@ -1,0 +1,45 @@
+{
+	"json_id": {
+		"chats": [
+			{
+				"Message": "Hi, how are you",
+				"MessageType": "seperate",
+				"flag": "Sent",
+				"createdTime": "10:00"
+			}
+		],
+		"status": "Read"
+	},
+	"sep_121594749718744": {
+		"chats": [
+			{
+				"Message": "hi",
+				"MessageType": "S",
+				"SentBy": 1,
+				"SentByName": "krooz",
+				"files": "",
+				"createdTime": 1594749723064,
+				"filename": ""
+			},
+			{
+				"Message": "hi",
+				"MessageType": "S",
+				"SentBy": 1,
+				"SentByName": "krooz",
+				"files": "",
+				"createdTime": 1594750276550,
+				"filename": ""
+			},
+			{
+				"Message": "hello",
+				"MessageType": "S",
+				"SentBy": 1,
+				"SentByName": "krooz",
+				"files": "",
+				"createdTime": 1594750512209,
+				"filename": ""
+			}
+		],
+		"Status": "Sent"
+	}
+}
