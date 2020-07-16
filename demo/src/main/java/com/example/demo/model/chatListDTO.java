@@ -7,6 +7,13 @@ public class chatListDTO {
 
 	private int chatId;
 	private String name;
+	private int chat_receiver_id;
+	public int getChat_receiver_id() {
+		return chat_receiver_id;
+	}
+	public void setChat_receiver_id(int chat_receiver_id) {
+		this.chat_receiver_id = chat_receiver_id;
+	}
 	private long time;
 	private String lastsentmsg;
 	public String getName() {

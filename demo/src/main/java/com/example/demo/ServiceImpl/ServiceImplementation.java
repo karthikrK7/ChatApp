@@ -361,7 +361,15 @@ public class ServiceImplementation implements UserService {
 				for (User usr : user) {
 					if (usr.getUid() == usrdet.getUid()) {
 						dto = new chatListDTO();
-						dto.setName(userRepository.findOne(messageMaster.getReceiverId()).getUsername());
+						if (messageMaster.getReceiverId() == usr.getUid()) { // check the current user from both angles
+																				// and sending the oppositte user
+																				// details ;
+							dto.setName(userRepository.findOne(messageMaster.getSenderId()).getUsername());
+							dto.setChat_receiver_id(messageMaster.getSenderId());
+						} else {
+							dto.setName(userRepository.findOne(messageMaster.getReceiverId()).getUsername());
+							dto.setChat_receiver_id(messageMaster.getReceiverId());
+						}
 						dto.setChatId(messageMaster.getChatId());
 						dto.setTime(System.currentTimeMillis());
 
@@ -412,18 +420,15 @@ public class ServiceImplementation implements UserService {
 						}
 					}
 					dto.setLastsentmsg(lastSentMsg);
-					dto.setLastsentmsg("");
+					// dto.setLastsentmsg("");
 					resultset.add(dto);
 				}
 			}
-
 		}
-
 		return resultset;
 	}
 
 	public Constants createUser(UserDTO usr) {
-
 		User u = userRepository.findByUsername(usr.getUsername());
 		if (u != null) {
 			return result.getResultJSON(301, "User Already Exists");
@@ -432,7 +437,6 @@ public class ServiceImplementation implements UserService {
 		if (u != null) {
 			return result.getResultJSON(301, "Email Already Exists");
 		}
-
 		User user = new User();
 		user.setEmail(usr.getEmail());
 		user.setUsername(usr.getUsername());
@@ -440,13 +444,10 @@ public class ServiceImplementation implements UserService {
 		user.setEnabled(true);
 		List<Role> role = new ArrayList<>();
 		Optional<Role> r = roleRepository.findById(2);
-
 		role.add(r.get());
 		user.setRoles(role);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		// user.setPassword(user.getPassword());
 		userRepository.save(user);
-
 		return result.getResultJSON(200, "success");
 	}
 
@@ -466,7 +467,6 @@ public class ServiceImplementation implements UserService {
 				parser.parse(json).getAsJsonObject().getAsJsonObject(messages.getSeperateid());
 				ResultJson.add("Conversation",
 						parser.parse(json).getAsJsonObject().getAsJsonObject(messages.getSeperateid()));
-
 				jsonObject = (JsonObject) jsonObject.get(messages.getSeperateid());
 				jsonArray = jsonObject.get("chats").getAsJsonArray();
 				JsonObject existingjsonObj = new JsonObject();
@@ -478,7 +478,6 @@ public class ServiceImplementation implements UserService {
 					NewjsonObj.add("SentBy", existingjsonObj.get("SentBy"));
 					NewjsonObj.add("SentByName", existingjsonObj.get("SentByName"));
 					NewjsonObj.add("createdTime", existingjsonObj.get("createdTime"));
-
 					byte[] FileContent = null;
 					if (existingjsonObj.get("files").toString().equalsIgnoreCase("")) {
 						FileContent = downloadFile(existingjsonObj.get("files").toString()).getFileContent();

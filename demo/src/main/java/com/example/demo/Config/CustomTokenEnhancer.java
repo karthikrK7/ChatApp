@@ -42,24 +42,24 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
 		info.put("email", user.getEmail());
 		info.put("user_id", user.getUid());
 		info.put("userName", user.getUsername());
-//		FileUpload FileContent = downloadFile(user.getUser_details().objectId);
-//		byte[] filedata = FileContent.getFileContent();
-//
-//		String filepath = tempFiles + "/" + FileContent.getName();
-//		OutputStream os = null;
-//		try {
-//			os = new FileOutputStream(filepath);
-//		} catch (FileNotFoundException e1) {
-//			e1.printStackTrace();
-//		}
-//		try {
-//			os.write(filedata);
-//			os.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		info.put("dp_path", FileContent.getName());
+		FileUpload FileContent = downloadFile(user.getUser_details().objectId);
+		byte[] filedata = FileContent.getFileContent();
+
+		String filepath = tempFiles + "/" + FileContent.getName();
+		OutputStream os = null;
+		try {
+			os = new FileOutputStream(filepath);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			os.write(filedata);
+			os.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		info.put("dp_path", FileContent.getName());
 
 		DefaultOAuth2AccessToken customAccessToken = new DefaultOAuth2AccessToken(accessToken);
 		customAccessToken.setAdditionalInformation(info);
