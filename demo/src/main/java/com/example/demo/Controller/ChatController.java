@@ -34,6 +34,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 @RestController
 @RequestMapping("webapi")
@@ -51,16 +54,14 @@ public class ChatController {
 
 	@MessageMapping("/send/message")
 	public void sendMessage(@Payload MessagingVO message) {
-		this.template.convertAndSend("/message", message);
 		// {"text":null,"sender_id":0,"receiver_id":0,"chat_id":0,"msg_Type":0,"groupChatId":null,"singleChatId":null}
-
-		/*
-		 * MessagingVO messageVo = new MessagingVO(); try { messageVo = new
-		 * ObjectMapper().readValue(message, MessagingVO.class); } catch
-		 * (JsonParseException e) { e.printStackTrace(); } catch (JsonMappingException
-		 * e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
-		 */
 		userService.sendMsg(message);
+		JsonParser jsonParser = new JsonParser();
+		JsonElement Elem = jsonParser.parse(userService.getConversation(message.getChat_id()));
+		JsonArray JsonArray = Elem.getAsJsonObject().get("Conversation").getAsJsonObject().get("chats")
+				.getAsJsonArray();
+		JsonElement lastElem = JsonArray.get(JsonArray.size() - 1);
+		this.template.convertAndSend("/message", lastElem.toString());
 	}
 
 	@RequestMapping(value = "/send/message", method = RequestMethod.POST, produces = "application/json")
