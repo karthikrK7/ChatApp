@@ -22,7 +22,7 @@ import org.springframework.core.annotation.Order;
 public class CORSFilter implements Filter {
 	
 	//You can include more than one origin here
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200"); 
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200","http://192.168.0.105:4200"); 
 
 	@Override
 	public void init(FilterConfig filterConfig) {
@@ -35,7 +35,7 @@ public class CORSFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		// Access-Control-Allow-Origin
         String origin = request.getHeader("Origin");
-		
+		System.out.println("origin ::"+origin);
 		//response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Origin", allowedOrigins.contains(origin) ? origin : "");
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");

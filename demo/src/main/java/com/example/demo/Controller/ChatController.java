@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.persistence.FetchType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -52,18 +54,7 @@ public class ChatController {
 		this.template = template;
 	}
 
-	@MessageMapping("/send/message")
-	public void sendMessage(@Payload MessagingVO message) {
-		// {"text":null,"sender_id":0,"receiver_id":0,"chat_id":0,"msg_Type":0,"groupChatId":null,"singleChatId":null}
-		userService.sendMsg(message);
-		JsonParser jsonParser = new JsonParser();
-		JsonElement Elem = jsonParser.parse(userService.getConversation(message.getChat_id()));
-		JsonArray JsonArray = Elem.getAsJsonObject().get("Conversation").getAsJsonObject().get("chats")
-				.getAsJsonArray();
-		JsonElement lastElem = JsonArray.get(JsonArray.size() - 1);
-		this.template.convertAndSend("/message", lastElem.toString());
-	}
-
+	
 	@RequestMapping(value = "/send/message", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Constants sendMsg(@RequestParam(name = "files", required = false) MultipartFile[] files,
@@ -83,7 +74,7 @@ public class ChatController {
 		return userService.sendMsg(messageVo);// , files
 	}
 
-	@RequestMapping(value = "/getparticipants", method = RequestMethod.GET)
+	@RequestMapping(value = "/getparticipants", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public List<User> getParticipants() {
 		return userService.getParticipants();

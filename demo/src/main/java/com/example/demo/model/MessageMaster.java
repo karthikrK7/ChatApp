@@ -20,22 +20,45 @@ public class MessageMaster implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chatid")
-	public int chatId;
+	private int chatId;
 
 	@Column(name = "senderid")
-	public int senderId;
+	private int senderId;
 
 	@Column(name = "receiverid")
-	public int receiverId;
+	private int receiverId;
 
 	@Column(name = "groupid")
-	public String groupId;
+	private String groupId;
 
 	@Column(name = "seperateid")
-	public String seperateid;
+	private String seperateid;
 
 	@Column(name = "isenable")
-	public int isenable;
+	private int isenable;
+	
+	@Column(name = "sendername")
+	private String senderName;
+	
+	@Column(name = "receivername")
+	private String receiverName;
+
+
+	public String getSenderName() {
+		return senderName;
+	}
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+
+	public String getReceiverName() {
+		return receiverName;
+	}
+
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
 
 	public int getIsEnable() {
 		return isenable;

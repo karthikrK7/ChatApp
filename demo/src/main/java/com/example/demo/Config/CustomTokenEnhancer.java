@@ -43,21 +43,21 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
 		info.put("user_id", user.getUid());
 		info.put("userName", user.getUsername());
 		FileUpload FileContent = downloadFile(user.getUser_details().objectId);
-		byte[] filedata = FileContent.getFileContent();
-
-		String filepath = tempFiles + "/" + FileContent.getName();
-		OutputStream os = null;
-		try {
-			os = new FileOutputStream(filepath);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			os.write(filedata);
-			os.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		byte[] filedata = FileContent.getFileContent();
+//
+//		String filepath = tempFiles + "/" + FileContent.getName();
+//		OutputStream os = null;
+//		try {
+//			os = new FileOutputStream(filepath);
+//		} catch (FileNotFoundException e1) {
+//			e1.printStackTrace();
+//		}
+//		try {
+//			os.write(filedata);
+//			os.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 		info.put("dp_path", FileContent.getName());
 

@@ -117,13 +117,13 @@ public class ServiceImplementation implements UserService {
 		// SecurityContextHolder.getContext().getAuthentication();
 		// User usrdet = userRepository.findByUsername(authentication.getName());
 
-		User usrdet = userRepository.findOne(messageVo.getReceiver_id());
+		User opponent = userRepository.findOne(messageVo.getReceiver_id());
 		// if we send sender & receiver not> chatid : generate new chat
 		// if we send sender& receiver & chatid : fetch existing chat
 		// messageVo.setSender_id(usrdet.getUid());
 		// messageVo.setReceiver_id(2);
 		// messageVo.setChat_id(4);
-
+		
 		MessageMaster mm = new MessageMaster();
 		JsonArray jsonArray = new JsonArray();
 		JsonParser parser = new JsonParser();
@@ -162,7 +162,7 @@ public class ServiceImplementation implements UserService {
 
 		mm.setSenderId(messageVo.getSender_id());
 		mm.setReceiverId(messageVo.getReceiver_id());
-
+		
 		String conversationId = "", Chats = "";
 		if (messageVo.getChat_id() == 0) {
 			conversationId = "sep_" + String.valueOf(messageVo.getSender_id())
@@ -188,6 +188,10 @@ public class ServiceImplementation implements UserService {
 		JO.addProperty("SentBy", messageVo.getSender_id());
 		User user = userRepository.findOne(Integer.valueOf(messageVo.getSender_id()));
 		JO.addProperty("SentByName", user.getUsername());
+		
+		mm.setSenderName(user.getUsername());
+		mm.setReceiverName(opponent.getUsername());
+		
 		// need to implement count
 		/*
 		 * if (messageVo.getChat_id() == 0) { }else {}
@@ -198,8 +202,17 @@ public class ServiceImplementation implements UserService {
 		JO.addProperty("filename", ""); // files[0].getOriginalFilename()
 		jsonArray.add(JO);
 		// added to Chats
+		
+		
+		JsonObject JO_det = new JsonObject();
+		JO_det.addProperty("senderName", user.getUsername());
+		JO_det.addProperty("receiverName", opponent.getUsername());
+		JsonArray JO_det_arr = new JsonArray();
+		JO_det_arr.add(JO_det);
+		
 		JsonObject JO1 = new JsonObject();
-		JO1.add("chats", jsonArray);
+		JO1.add("chats", jsonArray);		
+		JO1.add("messengerDet", JO_det_arr);
 		JO1.add("Status", parser.parse(result.statusSent));
 		jsonObject.add(conversationId, JO1);
 		System.out.println("Final JSON===== " + jsonObject);
@@ -504,6 +517,10 @@ public class ServiceImplementation implements UserService {
 					JsonObject JO1 = new JsonObject();
 					JO1.add("chats", NewjsonArray);
 					JO1.add("Status", parser.parse(result.statusSent));
+					JsonObject messenegr_det = jsonObject.get("messengerDet").getAsJsonArray().get(0).getAsJsonObject();
+					
+					JO1.add("senderName", messenegr_det.get("senderName"));
+					JO1.add("receiverName", messenegr_det.get("receiverName"));
 					FinaljsonObj.add("Conversation", JO1);
 				}
 

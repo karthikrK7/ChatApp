@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +34,22 @@ public class UserDetailsModal implements Serializable {
 
 	@Column(name = "file_id")
 	public String objectId;
+	
+	@Column(name = "address")
+	public String address;
+
+	@Column(name = "phone")
+	public String phone;
+	
+	@Column(name = "city")
+	public String state;
+	
+	@Column(name = "zip")
+	public String zip;
+	
+	@Column(name = "designation")
+	public String designation;
+	
 
 	public String getObjectId() {
 		return objectId;

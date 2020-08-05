@@ -68,7 +68,7 @@ public class User extends BaseIdEntity implements UserDetails {
 					@JoinColumn(name = "role_id", referencedColumnName = "id") })
 	private List<Role> roles;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id")
 	private UserDetailsModal user_details;
 

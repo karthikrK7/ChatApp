@@ -17,4 +17,5 @@ public interface MessageMasterRepository extends JpaRepository<MessageMaster, In
 	@Query(value="select m from MessageMaster m where senderid=:userId or receiverid=:userId")
 	List<MessageMaster> findChatsById(int userId);
 	
+	
 }
