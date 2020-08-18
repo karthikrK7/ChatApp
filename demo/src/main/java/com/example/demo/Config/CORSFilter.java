@@ -22,7 +22,7 @@ import org.springframework.core.annotation.Order;
 public class CORSFilter implements Filter {
 	
 	//You can include more than one origin here
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200","http://192.168.0.105:4200"); 
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200","http://192.168.0.102:4200"); 
 
 	@Override
 	public void init(FilterConfig filterConfig) {

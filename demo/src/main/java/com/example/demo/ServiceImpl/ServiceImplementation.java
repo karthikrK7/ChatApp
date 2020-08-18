@@ -551,4 +551,16 @@ public class ServiceImplementation implements UserService {
 		return mongoTemplate.findById(objectId.replace("\"", ""), FileUpload.class,
 				new CollectionRepositoryImpl().getCollectionName());
 	}
+
+	@Override
+	public boolean uploadFile(MultipartFile[] files, String userId) {
+		// TODO Auto-generated method stub
+		try {
+			mongoTemplate.insert(files[0].getBytes(), userId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 }

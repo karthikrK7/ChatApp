@@ -2,6 +2,8 @@ package com.example.demo.Service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.model.Constants;
 import com.example.demo.model.FileUpload;
 import com.example.demo.model.GroupMaster;
@@ -27,4 +29,6 @@ public interface UserService {
 	String getConversation(int chatId);
 
 	FileUpload downloadFile(String objectId);
+
+	boolean uploadFile(MultipartFile[] files, String userId);
 }

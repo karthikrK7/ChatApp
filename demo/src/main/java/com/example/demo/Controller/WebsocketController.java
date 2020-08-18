@@ -41,4 +41,12 @@ public class WebsocketController {
 	public void sendMessage(@Payload String typing) {
 		this.template.convertAndSend("/typing", typing.toString());
 	}
+	@MessageMapping("/send/videochatoffer")
+	public void videoCalling(@Payload String typing) {
+		this.template.convertAndSend("/videochatoffer", typing.toString());
+	}
+	@MessageMapping("/send/videochatanswer")
+	public void videoanswering(@Payload String typing) {
+		this.template.convertAndSend("/videochatanswer", typing.toString());
+	}
 }

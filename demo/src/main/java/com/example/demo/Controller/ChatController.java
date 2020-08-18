@@ -115,6 +115,11 @@ public class ChatController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName())
 				.body(file.getFileContent());
 	}
+	@RequestMapping(value = "/uploadDoc", method = RequestMethod.POST)
+	public boolean uploadFile(@RequestParam(name = "files", required = false) MultipartFile[] files,@RequestParam("userId") String userId) throws IOException {
+		
+		return userService.uploadFile(files,userId);
+	}
 
 	@RequestMapping(value = "/screenSharing", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> screenSharing() throws IOException {
