@@ -1,5 +1,7 @@
 package com.example.demo.ServiceImpl;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.queryParam;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -10,9 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,7 +76,7 @@ public class ServiceImplementation implements UserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-
+	
 	@Value("${common-files}")
 	private String commonFiles;
 
@@ -554,12 +560,19 @@ public class ServiceImplementation implements UserService {
 
 	@Override
 	public boolean uploadFile(MultipartFile[] files, String userId) {
-		// TODO Auto-generated method stub
-		try {
-			mongoTemplate.insert(files[0].getBytes(), userId);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		FileUpload docs = null;
+		fileUploadRepository.setCollectionName("Documents");
+		for (MultipartFile file : files) {
+			docs=new FileUpload();
+			docs.setUserId(userId);
+			docs.setName(file.getOriginalFilename());
+			try {
+				docs.setFileContent(file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			mongoTemplate.save(docs,new CollectionRepositoryImpl().getCollectionName().toString());
 		}
 		return true;
 	}
